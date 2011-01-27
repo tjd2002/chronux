@@ -3,15 +3,17 @@ function p = chronux_pathdef
 %
 % In your startup.m: 
 %
-%    cd ~/hg/chronux % path to this folder containing this file
+%    cd ~/git/chronux % path to this folder containing this file
 %    path(chronux_pathdef,p)
 %
 
-if isunix
-    path_to_repo = '/home/tjd/hg/chronux';
-else
-    path_to_repo = 'X:/chronux';
-end
+path_to_repo = pwd;
+
+% $$$ if isunix
+% $$$     path_to_repo = '/home/tjd/hg/chronux';
+% $$$ else
+% $$$     path_to_repo = 'X:/chronux';
+% $$$ end
 
 p = [...
     genpath([path_to_repo '/spectral_analysis']) ...
