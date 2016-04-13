@@ -51,7 +51,7 @@ nfft=max(2^(nextpow2(N)+pad),N);% number of points in fft
 if nargin<3 || isempty(mdkp); mdkp=min(K,NCHAN);
 elseif mdkp > min(K,NCHAN); error('mdkp has to be less than both K and NCHAN');end;
 
-tvec=(1:N)';
+tvec=1/Fs *(1:N)';
 tvec=repmat(tvec,[1 K]);
 tvec=tvec*2*pi*i;
 f=getfgrid(Fs,nfft,fpass);

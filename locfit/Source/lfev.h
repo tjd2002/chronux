@@ -1,7 +1,4 @@
-/*
- * Copyright 1996-2006 Catherine Loader.
- */
-#ifndef I_LFEV_H
+ #ifndef I_LFEV_H
 #define I_LFEV_H
 
 #include "locf.h"

@@ -10,7 +10,7 @@ function [A,sumV] = quadcof(N,NW,order)
 % A: quadratic inverse coefficient matrix
 % sumV: sum of the quadratic inverse eigenvectors
 
-A = zeros(2*NW-2,2*NW-2,order);
+A = zeros(2*NW,2*NW,order);
 V = quadinv(N,NW);
 [P,alpha] = dpss(N,NW,'calc');
 

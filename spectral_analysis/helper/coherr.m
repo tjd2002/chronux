@@ -18,6 +18,8 @@ function [confC,phistd,Cerr]=coherr(C,J1,J2,err,trialave,numsp1,numsp2)
 %          phistd - theoretical or jackknife standard deviation for phi for err(1)=1 and err(1)=2 
 %                   respectively. returns zero if coherence is 1
 %          Cerr  - Jacknife error bars for C  - only for err(1)=2
+% Jackknife uses the following transform of the coherence
+% z=sqrt(2*dim-2)atanh(C). Asymptotically (and for Gaussian data) var(z)=1.
 
 if nargin < 5; error('Need at least 5 input arguments'); end;
 if err(1)==0; error('Need err=[1 p] or [2 p] for error bar calculation'); end;
@@ -100,7 +102,7 @@ if errchk==1;
    phistd=reshape(phistd,[nf Ch]);
 elseif errchk==2;
     tcrit=tinv(pp,dof-1);
-    for k=1:dim;
+    for k=1:dim; % dim is the number of 'independent' estimates
         indxk=setdiff(1:dim,k);
         J1k=J1(:,indxk,:);
         J2k=J2(:,indxk,:);
@@ -109,7 +111,7 @@ elseif errchk==2;
         eJ12k=squeeze(sum(conj(J1k).*J2k,2)); 
         Cxyk=eJ12k./sqrt(eJ1k.*eJ2k);
         absCxyk=abs(Cxyk);
-        atanhCxyk(k,:,:)=sqrt(2*dim-2)*atanh(absCxyk);
+        atanhCxyk(k,:,:)=sqrt(2*dim-2)*atanh(absCxyk); % 1-drop estimate of z
         phasefactorxyk(k,:,:)=Cxyk./absCxyk;
 %         indxk=setdiff(1:dim,k);
 %         J1jk=J1(:,indxk,:);
@@ -119,15 +121,17 @@ elseif errchk==2;
 %         eJ12jk=squeeze(sum(conj(J1jk).*J2jk,2)); 
 %         atanhCxyjk(k,:,:)=sqrt(2*dim-2)*atanh(abs(eJ12jk)./sqrt(eJ1jk.*eJ2jk));
     end; 
-    atanhC=sqrt(2*dim-2)*atanh(C);
-    sigma12=sqrt(dim-1)*squeeze(std(atanhCxyk,1,1));
+    atanhC=sqrt(2*dim-2)*atanh(C); % z
+    sigma12=sqrt(dim-1)*squeeze(std(atanhCxyk,1,1)); % Jackknife estimate std(z)=sqrt(dim-1)*std of 1-drop estimates
 %     sigma12=sqrt(dim-1)*squeeze(std(atanhCxyjk,1,1));
     if Ch==1; sigma12=sigma12'; end;
     Cu=atanhC+tcrit(ones(nf,1),:).*sigma12;
     Cl=atanhC-tcrit(ones(nf,1),:).*sigma12;
-    Cerr(1,:,:) = tanh(Cl/sqrt(2*dim-2));
+    %Cerr(1,:,:) = tanh(Cl/sqrt(2*dim-2));
+    Cerr(1,:,:) = max(tanh(Cl/sqrt(2*dim-2)),0); % This ensures that the lower confidence band remains positive
     Cerr(2,:,:) = tanh(Cu/sqrt(2*dim-2));
-    phistd=(2*dim-2)*(1-abs(squeeze(mean(phasefactorxyk))));
+    %phistd=(2*dim-2)*(1-abs(squeeze(mean(phasefactorxyk))));
+    phistd = sqrt( (2*dim-2)*(1-abs(squeeze(mean(phasefactorxyk)))) );
     if trialave; phistd=phistd'; end;
 end
 % ncrit=norminv(pp);

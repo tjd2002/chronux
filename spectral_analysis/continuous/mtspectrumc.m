@@ -60,8 +60,8 @@ nfft=max(2^(nextpow2(N)+pad),N);
 tapers=dpsschk(tapers,N,Fs); % check tapers
 J=mtfftc(data,tapers,nfft,Fs);
 J=J(findx,:,:);
-S=squeeze(mean(conj(J).*J,2));
-if trialave; S=squeeze(mean(S,2));end;
+S=permute(mean(conj(J).*J,2),[1 3 2]);
+if trialave; S=squeeze(mean(S,2));else S=squeeze(S);end;
 if nargout==3; 
    Serr=specerr(S,J,err,trialave);
 end;

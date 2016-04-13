@@ -30,15 +30,15 @@ function [ S, f, Serr ]= mtspectrumc_unequal_length_trials( data, movingwin, par
 %
 
 iwAvg = 1; % 0=no weighted average, 1=weighted average
-debug = 1; % will display intermediate calcs. 
+debug = 0; % will display intermediate calcs. 
 
-if nargin < 2; error('avgSpectrum:: Need data and window parameters'); end;
+if nargin < 2; error('Unequal length trials:: Need data and window parameters'); end;
 if nargin < 3; params=[]; end;
-if isempty( sMarkers ), error( 'avgSpectrum:: Need Markers...' ); end
+if isempty( sMarkers ), error( 'Unequal length trials:: Need Markers...' ); end
 [ tapers, pad, Fs, fpass, err, trialave, params ] = getparams( params );
 if nargout > 2 && err(1)==0; 
 %   Cannot compute error bars with err(1)=0. change params and run again.
-    error('avgSpectrum:: When Serr is desired, err(1) has to be non-zero.');
+    error('Unequal length trials:: When Serr is desired, err(1) has to be non-zero.');
 end;
 
 % Set moving window parameters to no-overlapping

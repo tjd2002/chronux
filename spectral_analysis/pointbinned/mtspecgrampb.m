@@ -57,11 +57,10 @@ function [S,t,f,R,Serr]=mtspecgrampb(data,movingwin,params,fscorr)
 if nargin < 2; error('Need data and window parameters'); end;
 if nargin < 3; params=[]; end;
 
+[tapers,pad,Fs,fpass,err,trialave,params]=getparams(params);
 if length(params.tapers)==3 & movingwin(1)~=params.tapers(2);
     error('Duration of data in params.tapers is inconsistent with movingwin(1), modify params.tapers(2) to proceed')
 end
-
-[tapers,pad,Fs,fpass,err,trialave,params]=getparams(params);
 
 if nargin < 4 || isempty(fscorr); fscorr=0; end;
 if nargout > 4 && err(1)==0; 

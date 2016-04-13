@@ -28,8 +28,8 @@ div.box {
 .string {
 	color: #B20000;
 }
-.keyword { 
-	color: #0000FF;
+.keyword {
+	color: #0000CC;
 }
 
 .keywordtype { color: #604020; }
@@ -39,11 +39,12 @@ div.box {
 .charliteral { color: #008080; }
 
 a {
-	text-decoration: none; 
+	text-decoration: none;
+	color: #999999;
 }
 
 a:hover {
-	background-color: #006699;
+	background-color: #99CCCC;
 	color:#FFFFFF;
 }
 
@@ -59,17 +60,34 @@ a.code:hover {
 
 h1 {
 	background: transparent;
-	color: #006699;
-	font-size: x-large;
-	text-align: center;
+	color: #666666;
+	font-size: large;
+	text-align: left;
 }
 
 h2 {
 	background: transparent;
 	color: #006699;
-	font-size: large;
+	font-size: medium;
+	text-align: left;
 }
 
 address {
 	font-size:small;
+}
+
+form.search {
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+input.search {
+	font-size: 75%;
+	color: #000080;
+	font-weight: normal;
+	background-color: #eeeeff;
+}
+
+li {
+	padding-left:5px;
+	color: #333333;
 }

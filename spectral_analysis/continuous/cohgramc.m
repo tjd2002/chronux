@@ -67,7 +67,7 @@ function [C,phi,S12,S1,S2,t,f,confC,phistd,Cerr]=cohgramc(data1,data2,movingwin,
 if nargin < 3; error('Need data1 and data2 and window parameters'); end;
 if nargin < 4; params=[];end;
 
-if length(params.tapers)==3 & movingwin(1)~=params.tapers(2);
+if ~isempty(params) && length(params.tapers)==3 && movingwin(1)~=params.tapers(2);
     error('Duration of data in params.tapers is inconsistent with movingwin(1), modify params.tapers(2) to proceed')
 end
 

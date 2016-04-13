@@ -1,5 +1,5 @@
 function [dz,vdz,Adz]=two_group_test_spectrum(J1,J2,p,plt,f)
-% function [dz,vdz,Adz]=two_group_test_spectrum(J1,J2,p)
+% function [dz,vdz,Adz]=two_group_test_spectrum(J1,J2,p,plt,f)
 % Test the null hypothesis (H0) that data sets J1, J2 in 
 % two conditions c1,c2 have equal population spectrum
 %
@@ -39,7 +39,7 @@ m2=size(J2,2); % number of samples, condition 2
 dof1=m1; % degrees of freedom, condition 1
 dof2=m2; % degrees of freedom, condition 2
 if nargin < 5 || isempty(f); f=size(J1,1); end;
-if nargin < 3; p=0.05; end; % set the default p value
+if nargin < 3 || isempty(p); p=0.05; end; % set the default p value
 
 %
 % Compute the individual condition spectra, coherences
@@ -58,7 +58,11 @@ var1=psi(1,dof1); var2=psi(1,dof2); % variance from Thomson & Chave
 z1=log(Sm1)-bias1; % Bias-corrected Fisher z, condition 1
 z2=log(Sm2)-bias2; % Bias-corrected Fisher z, condition 2
 dz=(z1-z2)/sqrt(var1+var2); % z statistic
-pdz=normpdf(dz,0,1); % probability of observing value dz
+
+% Bug fix 
+% pdz=normpdf(dz,0,1); % probability of observing value dz
+pdz = 2*normcdf(-abs(dz),0,1); % probability of observing value dz
+
 %
 % The remaining portion of the program computes Jackknife estimates of the mean (mdz) and variance (vdz) of dz
 % 
@@ -117,7 +121,7 @@ Adz(indx)=1;
 % indx=find(dzah>=x(1) & dzah<=x(2)); 
 % Adzah(indx)=1;
 if strcmp(plt,'y');
-    if isempty(f) || nargin < 6;
+    if isempty(f) || nargin < 5;
         f=linspace(0,1,length(dz));
     end;
     %
@@ -132,7 +136,7 @@ if strcmp(plt,'y');
     plot(f,S1,f,S2); legend('Data 1','Data 2');
     set(gca,'FontName','Times New Roman','Fontsize', 16);
     ylabel('Spectra');
-    title('Two group test for coherence');
+    title('Two group test for spectrum');
     subplot(312);
     plot(f,dz);
     set(gca,'FontName','Times New Roman','Fontsize', 16);

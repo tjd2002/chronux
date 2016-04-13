@@ -1,5 +1,5 @@
 function [dz,vdz,Adz]=two_group_test_coherence(J1c1,J2c1,J1c2,J2c2,p,plt,f)
-% function [dz,vdz,Adz]=two_group_test_coherence(J1c1,J2c1,J1c2,J2c2,p)
+% function [dz,vdz,Adz]=two_group_test_coherence(J1c1,J2c1,J1c2,J2c2,p,plt,f)
 % Test the null hypothesis (H0) that data sets J1c1,J2c1,J1c2,J2c2 in 
 % two conditions c1,c2 have equal population coherence
 %
@@ -46,7 +46,7 @@ else;
     dof2=2*m2; % number of degrees of freedom in the second condition estimates
 end;
 if nargin < 7 || isempty(f); f=size(J1c1,1); end;
-if nargin < 5; p=0.05; end; % set the default p value
+if nargin < 5 || isempty(p); p=0.05; end; % set the default p value
 
 %
 % Compute the individual condition spectra, coherences

@@ -105,7 +105,7 @@ Ctot=zeros(length(findx),1); Cent=Ctot;
 Cvec=zeros(length(findx),C);
 for i=1:length(findx),
     [u s]=svd(squeeze(Sc(i,:,:)));s=diag(s);
-    Ctot(i)=s(1).^2/sum(s.^2); Cent(i)=exp(mean(log(s.^2)))/mean(s.^2);             
+    Ctot(i)=s(1)/sum(s); Cent(i)=exp(mean(log(s)))/mean(s);             
     Cvec(i,:)=transpose(u(:,1));
 end
         

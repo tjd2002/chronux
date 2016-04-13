@@ -964,7 +964,7 @@ int (*f)(), d, n;
 double *ll, *ur, *res;
 {
   int i, j, nr;
-#ifdef WINDOWS
+#ifdef WIN
   mut_printf("Sorry, Monte-Carlo Integration not enabled.\n");
   for (i=0; i<n; i++) res[i] = 0.0;
 #else
